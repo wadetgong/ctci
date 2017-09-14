@@ -9,7 +9,6 @@ const isUnique = string => {
   return true
 }
 
-
 // 1.2 checkPermutation
 const getCharHash = str => {
   const strHash = {}

@@ -82,10 +82,105 @@ const oneAway = (startStr, endStr) => {
   return charsIn(startStr, endStr)
 }
 
+// 1.6 stringCompress
+const stringCompress = str => {
+  let tempStr = str
+  let currentChar = tempStr[0]
+  let currentCount = 0
+  let compressed = ''
+  while (tempStr.length) {
+    if (tempStr[0] === currentChar) {
+      currentCount++
+    } else {
+      compressed += `${currentChar}${currentCount}`
+      currentChar = tempStr[0]
+      currentCount = 1
+    }
+    tempStr = tempStr.slice(1)
+  }
+  compressed += `${currentChar}${currentCount}`
+
+  if (compressed.length < str.length) return compressed
+  return str
+}
+
+// 1.7 rotateMatrix
+const initMatrix = n => {
+  let newMatrix = []
+  for (let i = 0; i < n; i++) {
+    newMatrix.push([])
+  }
+  return newMatrix
+}
+
+const rotateMatrix = matrix => {
+  let rowCount = matrix.length
+  let colCount = matrix[0].length
+  if (rowCount !== colCount) {
+    throw new Error('Not an n x n matrix.')
+  }
+
+  let newMatrix = initMatrix(rowCount)
+
+  for (let i = 0; i < rowCount; i++) {
+    for (let j = 0; j < colCount; j++) {
+      newMatrix[j][colCount - i - 1] = matrix[i][j]
+    }
+  }
+  return newMatrix
+}
+
+// 1.8 zeroMatrix
+const zeroMatrix = matrix => {
+  let rowCount = matrix.length
+  let colCount = matrix[0].length
+  if (rowCount !== colCount) {
+    throw new Error('Not an n x n matrix.')
+  }
+
+  let zeroRows = {}
+  let zeroCols = {}
+  for (let i = 0; i < rowCount; i++) {
+    for (let j = 0; j < colCount; j++) {
+      if (matrix[i][j] === 0) {
+        zeroRows[i] = true
+        zeroCols[j] = true
+      }
+    }
+  }
+
+  let newMatrix = initMatrix(rowCount)
+  for (let i = 0; i < rowCount; i++) {
+    for (let j = 0; j < colCount; j++) {
+      if (zeroRows[i] || zeroCols[j]) newMatrix[i][j] = 0
+      else newMatrix[i][j] = matrix[i][j]
+    }
+  }
+  return newMatrix
+}
+
+// 1.9 stringRotation - isSubstring
+const isSubstring = (str1, str2) => {
+  if (str1.length !== str2.length) return false
+  const rotString = str2 + str2
+  for (let i = 0; i < rotString.length - str1.length; i++) {
+    for (let j = 0; j < str1.length; j++) {
+      if (rotString[i + j] !== str1[j]) break
+      if (j === str1.length - 1) return true
+    }
+  }
+  return false
+}
+
 module.exports = {
   isUnique,
   checkPermutation,
   urlify,
   palindromePermutation,
   oneAway,
+  stringCompress,
+  rotateMatrix,
+  zeroMatrix,
+  isSubstring,
 }
+

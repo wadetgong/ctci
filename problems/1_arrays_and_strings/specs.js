@@ -5,6 +5,10 @@ const {
   urlify,
   palindromePermutation,
   oneAway,
+  stringCompress,
+  rotateMatrix,
+  zeroMatrix,
+  isSubstring,
 } = require('./problems')
 
 // 1.1 isUnique
@@ -109,5 +113,102 @@ describe('oneAway', () => {
     const str1 = 'pale'
     const str2 = 'pale'
     expect(oneAway(str1, str2)).to.be.equal(true)
+  })
+})
+
+// 1.6 stringCompress
+describe('stringCompress', () => {
+  it('compresses a string correctly', () => {
+    const string = 'aabcccccaaa'
+    expect(stringCompress(string)).to.be.equal('a2b1c5a3')
+  })
+
+  it('returns the original string if the compressed string is longer', () => {
+    const string = 'abccdddef'
+    expect(stringCompress(string)).to.be.equal('abccdddef')
+  })
+})
+
+// 1.7 rotateMatrix
+describe('rotateMatrix', () => {
+  it('rotates a 2 x 2 matrix 90 degrees correctly', () => {
+    const matrix = [[1, 2], [3, 4]]
+    expect(rotateMatrix(matrix)).to.deep.equal([[3, 1], [4, 2]])
+  })
+
+  it('rotates a 3 x 3 matrix 90 degrees correctly', () => {
+    const matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    expect(rotateMatrix(matrix)).to.deep.equal([
+      [7, 4, 1], [8, 5, 2], [9, 6, 3]
+    ])
+  })
+
+  it('rotates a 4 x 4 matrix 90 degrees correctly', () => {
+    const matrix = [
+      [1, 2, 3, 4],
+      [5, 6, 7, 8],
+      [9, 10, 11, 12],
+      [13, 14, 15, 16]
+    ]
+    expect(rotateMatrix(matrix)).to.deep.equal([
+      [13, 9, 5, 1],
+      [14, 10, 6, 2],
+      [15, 11, 7, 3],
+      [16, 12, 8, 4]
+    ])
+  })
+})
+
+// 1.8 zeroMatrix
+describe('zeroMatrix', () => {
+  it('sets the entire row and column of a matrix to 0 for a given location containing 0 (2 x 2) matrix', () => {
+    const matrix = [[1, 2], [0, 3]]
+    expect(zeroMatrix(matrix)).to.deep.equal([[0, 2], [0, 0]])
+  })
+
+  it('sets the entire row and column of a matrix to 0 for a given location containing 0 (3 x 3) matrix', () => {
+    const matrix = [[1, 2, 3], [0, 4, 5], [6, 7, 8]]
+    expect(zeroMatrix(matrix)).to.deep.equal([
+      [0, 2, 3], [0, 0, 0], [0, 7, 8]
+    ])
+  })
+
+  it('sets the entire row and column of a matrix to 0 for a given location containing 0 (3 x 3) matrix (2 instances of 0)', () => {
+    const matrix = [[1, 2, 0], [0, 4, 5], [6, 7, 8]]
+    expect(zeroMatrix(matrix)).to.deep.equal([
+      [0, 0, 0], [0, 0, 0], [0, 7, 0]
+    ])
+  })
+
+  it('leaves matrices with no 0\'s unchanged', () => {
+    const matrix = [[1, 2], [3, 4]]
+    expect(zeroMatrix(matrix)).to.deep.equal(matrix)
+  })
+})
+
+// 1.9 stringRotation - isSubstring
+describe('stringRotation - isSubstring', () => {
+  it('returns true if str1 is a rotation of str2', () => {
+    const str1 = 'waterbottle'
+    const str2 = 'erbottlewat'
+    expect(isSubstring(str1, str2)).to.be.equal(true)
+  })
+
+  it('returns false if str1 is not a rotation of str2 (1)', () => {
+    const str1 = 'waterbottle'
+    const str2 = 'asdfasdfasd'
+    expect(isSubstring(str1, str2)).to.be.equal(false)
+  })
+
+  it('returns false if str1 is not a rotation of str2 (2)', () => {
+    const str1 = 'waterbottle'
+    const str2 = 'erbotltewat'
+    expect(isSubstring(str1, str2)).to.be.equal(false)
+  })
+
+  it('returns true if str1 is equal to str2 initially', () => {
+    const str1 = 'waterbottle'
+    const str2 = 'waterbottle'
+    expect(isSubstring(str1, str2)).to.be.equal(true)
   })
 })

@@ -1,16 +1,22 @@
 const { expect } = require('chai')
 const { LinkedList, Node } = require('./LinkedList')
 const { DoublyLinkedList } = require('./DoublyLinkedList')
+const {
+  removeDups,
+  kthToLast,
+  deleteMiddleNode,
+  partition,
+} = require('./problems')
 
 describe('Chapter 2: Linked Lists', () => {
-  let linkedList;
-
-  beforeEach(() => {
-    linkedList = new LinkedList()
-  })
 
   // 2.0 SinglyLinkedList and DoublyLinkedList
   describe('SinglyLinkedList', () => {
+    let linkedList
+    beforeEach(() => {
+      linkedList = new LinkedList()
+    })
+
     it('correctly calculates length', () => {
       const node3 = new Node('third')
       const node2 = new Node('secont', node3)
@@ -72,6 +78,9 @@ describe('Chapter 2: Linked Lists', () => {
       linkedList.addToTail(2)
       linkedList.addToTail('third')
       linkedList.addToTail(4)
+      expect(linkedList.remove(0).value).to.be.equal('first')
+      expect(linkedList.length()).to.be.equal(3)
+      linkedList.addToHead('first')
       expect(linkedList.remove(2).value).to.be.equal('third')
       expect(linkedList.searchNodeAt(2).value).to.be.equal(4)
     })
@@ -86,7 +95,7 @@ describe('Chapter 2: Linked Lists', () => {
   })
 
   describe('DoublyLinkedList', () => {
-    let doublyLinkedList;
+    let doublyLinkedList
     beforeEach(() => {
       doublyLinkedList = new DoublyLinkedList()
     })
@@ -140,9 +149,12 @@ describe('Chapter 2: Linked Lists', () => {
       doublyLinkedList.addToTail(2)
       doublyLinkedList.addToHead(1)
       doublyLinkedList.addToTail('third')
+      expect(doublyLinkedList.remove(0).value).to.be.equal(1)
+      doublyLinkedList.addToHead(1)
       expect(doublyLinkedList.remove(1).value).to.be.equal(2)
       expect(doublyLinkedList.head.next.value).to.be.equal('third')
       expect(doublyLinkedList.head.next.previous.value).to.be.equal(1)
+      expect(doublyLinkedList.length()).to.be.equal(2)
     })
 
     it('returns null if remove is called on a position that does not exist', () => {
@@ -154,5 +166,127 @@ describe('Chapter 2: Linked Lists', () => {
     })
   })
 
-  // 2.1
+  // 2.1 removeDups
+  describe('removeDups', () => {
+    let linkedList
+    beforeEach(() => {
+      linkedList = new LinkedList()
+    })
+
+    it('removes duplicates from a LinkedList', () => {
+      linkedList.addToHead('1')
+      linkedList.addToHead('2')
+      linkedList.addToTail('3')
+      linkedList.addToHead('1')
+      linkedList.addToHead('1')
+      linkedList.addToTail('3')
+      expect(removeDups(linkedList).length()).to.be.equal(3)
+      linkedList.addToTail('4')
+      linkedList.addToTail('4')
+      expect(removeDups(linkedList).length()).to.be.equal(4)
+    })
+
+    it('leaves a LinkedList with no duplicates unchanged', () => {
+      linkedList.addToHead('1')
+      linkedList.addToTail('2')
+      linkedList.addToTail('3')
+      linkedList.addToTail('4')
+      expect(removeDups(linkedList).length()).to.be.equal(4)
+    })
+  })
+
+  // 2.2 kthToLast
+  describe('kthToLast', () => {
+    let linkedList
+    beforeEach(() => {
+      linkedList = new LinkedList()
+    })
+
+    it('returns the kth to last Node in a singly LinkedList', () => {
+      linkedList.addToTail(1)
+      linkedList.addToTail(2)
+      linkedList.addToTail(3)
+      linkedList.addToTail(4)
+      linkedList.addToTail(5)
+      expect(kthToLast(linkedList, 0).value).to.be.equal(5)
+      expect(kthToLast(linkedList, 1).value).to.be.equal(4)
+      expect(kthToLast(linkedList, 2).value).to.be.equal(3)
+    })
+
+    it('returns null for an invalid value of k', () => {
+      linkedList.addToTail(1)
+      linkedList.addToTail(2)
+      linkedList.addToTail(3)
+      expect(kthToLast(linkedList, 3)).to.be.equal(null)
+      expect(kthToLast(linkedList, 4)).to.be.equal(null)
+      expect(kthToLast(linkedList, -1)).to.be.equal(null)
+      expect(kthToLast(linkedList, 0.5)).to.be.equal(null)
+    })
+  })
+
+  // 2.3 deleteMiddleNode
+  describe('deleteMiddleNode', () => {
+    let linkedList
+    beforeEach(() => {
+      linkedList = new LinkedList()
+    })
+
+    it('removes a middle Node in a LinkedList', () => {
+      linkedList.addToHead(1)
+      linkedList.addToTail(2)
+      linkedList.addToTail(3)
+      linkedList.addToTail(4)
+      deleteMiddleNode(linkedList.head.next.next)
+      expect(linkedList.length()).to.be.equal(3)
+      expect(linkedList.head.next.next.value).to.be.equal(4)
+      deleteMiddleNode(linkedList.head.next)
+      expect(linkedList.length()).to.be.equal(2)
+      expect(linkedList.head.next.value).to.be.equal(4)
+    })
+
+    it('returns null if Node is the tail of the LinkedList', () => {
+      linkedList.addToHead(1)
+      linkedList.addToTail(2)
+      linkedList.addToTail(3)
+      linkedList.addToTail(4)
+      expect(deleteMiddleNode(linkedList.head.next.next.next)).to.be.equal(null)
+      expect(linkedList.length()).to.be.equal(4)
+      expect(linkedList.head.next.next.value).to.be.equal(3)
+    })
+  })
+
+  // 2.4 partition
+  describe('partition', () => {
+    let linkedList
+    beforeEach(() => {
+      linkedList = new LinkedList()
+    })
+
+    it('rearranges a LinkList around a partition value found in LinkedList', () => {
+      linkedList.addToTail(4)
+      linkedList.addToTail(3)
+      linkedList.addToTail(2)
+      linkedList.addToTail(1)
+      let updatedLinkedList = partition(linkedList, 2)
+      expect(updatedLinkedList.head.value).to.be.deep.equal(1)
+      expect(updatedLinkedList.head.next.value).to.be.deep.equal(2)
+      expect(updatedLinkedList.head.next.next.value).to.be.deep.equal(4)
+      expect(updatedLinkedList.head.next.next.next.value).to.be.deep.equal(3)
+    })
+
+    it('rearranges a LinkList around a partition value not found in LinkedList', () => {
+      linkedList.addToTail(5)
+      linkedList.addToTail(6)
+      linkedList.addToTail(4)
+      linkedList.addToTail(2)
+      linkedList.addToTail(1)
+      let updatedLinkedList = partition(linkedList, 3)
+      expect(updatedLinkedList.head.value).to.be.deep.equal(1)
+      expect(updatedLinkedList.head.next.value).to.be.deep.equal(2)
+      expect(updatedLinkedList.head.next.next.value).to.be.deep.equal(5)
+      expect(updatedLinkedList.head.next.next.next.value).to.be.deep.equal(6)
+      expect(updatedLinkedList.head.next.next.next.next.value).to.be.deep.equal(4)
+    })
+
+  })
 })

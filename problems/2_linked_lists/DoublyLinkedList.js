@@ -28,6 +28,11 @@ class DoublyLinkedList extends LinkedList {
 
   remove(position) {
     let currentNode = this.head
+    if (position === 0) {
+      this.head = currentNode.next
+      this.head.previous = null
+      return currentNode
+    }
     for (let i = 0; i < position - 1; i++) {
       if (currentNode) currentNode = currentNode.next
       else return null

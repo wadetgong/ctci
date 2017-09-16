@@ -58,7 +58,6 @@ LinkedList.prototype.remove = function(position) {
   let currentNode = this.head
   if (position === 0) {
     this.head = currentNode.next
-    currentNode.next = null
     return currentNode
   }
   for (let i = 0; i < position - 1; i++) {

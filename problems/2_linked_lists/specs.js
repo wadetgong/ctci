@@ -6,6 +6,11 @@ const {
   kthToLast,
   deleteMiddleNode,
   partition,
+  sumListsReverse,
+  sumListsInOrder,
+  palindrome,
+  intersection,
+  loopDetection,
 } = require('./problems')
 
 describe('Chapter 2: Linked Lists', () => {
@@ -287,6 +292,217 @@ describe('Chapter 2: Linked Lists', () => {
       expect(updatedLinkedList.head.next.next.next.value).to.be.deep.equal(6)
       expect(updatedLinkedList.head.next.next.next.next.value).to.be.deep.equal(4)
     })
+  })
 
+  // 2.5 sumListsReverse
+  describe('sumListsReverse', () => {
+    let linkedList1, linkedList2
+    beforeEach(() => {
+      linkedList1 = new LinkedList()
+      linkedList2 = new LinkedList()
+    })
+
+    it('adds up 2 LinkedLists correctly', () => {
+      linkedList1.addToTail(7)
+      linkedList1.addToTail(1)
+      linkedList1.addToTail(6)
+      linkedList2.addToTail(5)
+      linkedList2.addToTail(9)
+      linkedList2.addToTail(2)
+      let resultLinkedList = sumListsReverse(linkedList1, linkedList2)
+      expect(resultLinkedList).to.be.an.instanceOf(LinkedList)
+      expect(resultLinkedList.length()).to.be.equal(3)
+      expect(resultLinkedList.head.value).to.be.equal(2)
+      expect(resultLinkedList.head.next.value).to.be.equal(1)
+      expect(resultLinkedList.head.next.next.value).to.be.equal(9)
+
+    })
+
+    it('correctly accounts for any potential carry', () => {
+      linkedList1.addToTail(5)
+      linkedList1.addToTail(6)
+      linkedList1.addToTail(7)
+      linkedList2.addToTail(3)
+      linkedList2.addToTail(7)
+      linkedList2.addToTail(8)
+      let resultLinkedList = sumListsReverse(linkedList1, linkedList2)
+      expect(resultLinkedList.length()).to.be.equal(4)
+      expect(resultLinkedList.head.value).to.be.equal(8)
+      expect(resultLinkedList.head.next.value).to.be.equal(3)
+      expect(resultLinkedList.head.next.next.value).to.be.equal(6)
+      expect(resultLinkedList.head.next.next.next.value).to.be.equal(1)
+    })
+
+    it('correctly adds 2 LinkedLists with different lengths', () => {
+      linkedList1.addToTail(5)
+      linkedList1.addToTail(6)
+      linkedList2.addToTail(3)
+      linkedList2.addToTail(7)
+      linkedList2.addToTail(8)
+      linkedList2.addToTail(1)
+      let resultLinkedList = sumListsReverse(linkedList1, linkedList2)
+      expect(resultLinkedList.length()).to.be.equal(4)
+      expect(resultLinkedList.head.value).to.be.equal(8)
+      expect(resultLinkedList.head.next.value).to.be.equal(3)
+      expect(resultLinkedList.head.next.next.value).to.be.equal(9)
+      expect(resultLinkedList.head.next.next.next.value).to.be.equal(1)
+    })
+  })
+
+  describe('sumListsInOrder', () => {
+    let linkedList1, linkedList2
+    beforeEach(() => {
+      linkedList1 = new LinkedList()
+      linkedList2 = new LinkedList()
+    })
+
+    it('adds up 2 LinkedLists correctly', () => {
+      linkedList1.addToHead(7)
+      linkedList1.addToHead(1)
+      linkedList1.addToHead(6)
+      linkedList2.addToHead(5)
+      linkedList2.addToHead(9)
+      linkedList2.addToHead(2)
+      let resultLinkedList = sumListsInOrder(linkedList1, linkedList2)
+      expect(resultLinkedList).to.be.an.instanceOf(LinkedList)
+      expect(resultLinkedList.length()).to.be.equal(3)
+      expect(resultLinkedList.head.value).to.be.equal(9)
+      expect(resultLinkedList.head.next.value).to.be.equal(1)
+      expect(resultLinkedList.head.next.next.value).to.be.equal(2)
+    })
+
+    it('correctly accounts for any potential carry', () => {
+      linkedList1.addToHead(5)
+      linkedList1.addToHead(6)
+      linkedList1.addToHead(7)
+      linkedList2.addToHead(3)
+      linkedList2.addToHead(7)
+      linkedList2.addToHead(8)
+      let resultLinkedList = sumListsInOrder(linkedList1, linkedList2)
+      expect(resultLinkedList.length()).to.be.equal(4)
+      expect(resultLinkedList.head.value).to.be.equal(1)
+      expect(resultLinkedList.head.next.value).to.be.equal(6)
+      expect(resultLinkedList.head.next.next.value).to.be.equal(3)
+      expect(resultLinkedList.head.next.next.next.value).to.be.equal(8)
+    })
+
+    it('correctly adds 2 LinkedLists with different lengths', () => {
+      linkedList1.addToHead(5)
+      linkedList1.addToHead(6)
+      linkedList2.addToHead(3)
+      linkedList2.addToHead(7)
+      linkedList2.addToHead(8)
+      linkedList2.addToHead(1)
+      let resultLinkedList = sumListsInOrder(linkedList1, linkedList2)
+      expect(resultLinkedList.length()).to.be.equal(4)
+      expect(resultLinkedList.head.value).to.be.equal(1)
+      expect(resultLinkedList.head.next.value).to.be.equal(9)
+      expect(resultLinkedList.head.next.next.value).to.be.equal(3)
+      expect(resultLinkedList.head.next.next.next.value).to.be.equal(8)
+    })
+  })
+
+  // 2.6 palindrome
+  describe('palindrome', () => {
+    let linkedList
+    beforeEach(() => {
+      linkedList = new LinkedList()
+    })
+
+    it('returns true if a LinkedList represents a palindrome', () => {
+      linkedList.addToHead(5)
+      linkedList.addToHead(6)
+      linkedList.addToHead(3)
+      linkedList.addToHead(6)
+      linkedList.addToHead(5)
+      expect(palindrome(linkedList)).to.be.equal(true)
+    })
+
+    it('returns false if a LinkedList does not represent a palindrome', () => {
+      linkedList.addToHead(5)
+      linkedList.addToHead(6)
+      linkedList.addToHead(3)
+      linkedList.addToHead(2)
+      linkedList.addToHead(6)
+      linkedList.addToHead(5)
+      expect(palindrome(linkedList)).to.be.equal(false)
+    })
+
+    it('returns true for empty LinkedList', () => {
+      expect(palindrome(linkedList)).to.be.equal(true)
+    })
+  })
+
+  // 2.7 intersection
+  describe('intersection', () => {
+    let linkedList1, linkedList2
+    beforeEach(() => {
+      linkedList1 = new LinkedList()
+      linkedList2 = new LinkedList()
+    })
+
+    it('returns the intersecting node for 2 intersecting LinkedLists', () => {
+      linkedList1.addToTail(1)
+      linkedList1.addToTail(2)
+      linkedList1.addToTail(3)
+      linkedList2.addToTail(1)
+      linkedList2.addToTail(2)
+      linkedList2.addToTail(3)
+      let intersect = new Node(4)
+      linkedList1.head.next.next.next = intersect
+      linkedList2.head.next.next.next = intersect
+      linkedList1.addToTail(5)
+      linkedList1.addToTail(6)
+      expect(linkedList1.length()).to.be.equal(6)
+      expect(linkedList2.length()).to.be.equal(6)
+      expect(intersection(linkedList1, linkedList2)).to.be.equal(true)
+    })
+
+    it('returns false for 2 LinkedLists that don\'t intersect', () => {
+      linkedList1.addToTail(1)
+      linkedList1.addToTail(2)
+      linkedList1.addToTail(3)
+      linkedList2.addToTail(1)
+      linkedList2.addToTail(2)
+      linkedList2.addToTail(3)
+      expect(intersection(linkedList1, linkedList2)).to.be.equal(false)
+
+    })
+  })
+
+  // 2.7 loopDetection
+  describe('loopDetection', () => {
+    let linkedList
+    beforeEach(() => {
+      linkedList = new LinkedList()
+    })
+
+    it('returns the node at the start of the circular LinkedList loop', () => {
+      linkedList.addToTail(1)
+      linkedList.addToTail(2)
+      linkedList.addToTail(3)
+      let loopNode = new Node(4)
+      linkedList.head.next.next.next = loopNode
+      linkedList.addToTail(5)
+      linkedList.addToTail(6)
+      linkedList.addToTail(4)
+      linkedList.addToTail(8)
+      linkedList.head.next.next.next.next.next.next.next.next = loopNode
+      expect(loopDetection(linkedList)).to.be.equal(loopNode)
+    })
+
+    it('returns null if the LinkedList is not circular', () => {
+      linkedList.addToTail(1)
+      linkedList.addToTail(2)
+      linkedList.addToTail(3)
+      linkedList.addToTail(4)
+      linkedList.addToTail(5)
+      linkedList.addToTail(6)
+      expect(loopDetection(linkedList)).to.be.equal(null)
+    })
+    it('returns null if the LinkedList is not circular', () => {
+      linkedList.addToTail(1)
+      expect(loopDetection(linkedList)).to.be.equal(null)
+    })
   })
 })

@@ -500,7 +500,7 @@ describe('Chapter 2: Linked Lists', () => {
       linkedList.addToTail(6)
       expect(loopDetection(linkedList)).to.be.equal(null)
     })
-    it('returns null if the LinkedList is not circular', () => {
+    it('returns null if the LinkedList is not of sufficient length to produce a loop', () => {
       linkedList.addToTail(1)
       expect(loopDetection(linkedList)).to.be.equal(null)
     })

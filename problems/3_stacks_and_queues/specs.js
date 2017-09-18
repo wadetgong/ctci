@@ -1,16 +1,17 @@
 const { expect } = require('chai')
 const {
-  threeInOne
+  ThreeInOne,
+  StackMin,
 } = require('./problems')
 
 
 describe('Chapter 3: Stacks and Queues', () => {
 
   // 3.1 threeInOne
-  describe('threeInOne', () => {
+  describe('ThreeInOne', () => {
     let threeStack
     beforeEach(() => {
-      threeStack = new threeInOne()
+      threeStack = new ThreeInOne()
     })
 
     it('implements three stacks in one data structure', () => {
@@ -36,6 +37,49 @@ describe('Chapter 3: Stacks and Queues', () => {
       expect(threeStack.pop1()).to.be.equal(null)
       expect(threeStack.pop2()).to.be.equal(null)
       expect(threeStack.pop3()).to.be.equal(null)
+    })
+  })
+
+  // 3.2 stackMin
+  describe('StackMin', () => {
+    let stackMin
+    beforeEach(() => {
+      stackMin = new StackMin()
+    })
+
+    it('implements push in O(1) time', () => {
+      stackMin.push(1)
+      stackMin.push(2)
+      stackMin.push(3)
+      expect(stackMin.peek()).to.be.equal(3)
+    })
+
+    it('implements pop in O(1) time', () => {
+      stackMin.push(1)
+      stackMin.push(2)
+      stackMin.push(3)
+      expect(stackMin.pop()).to.be.equal(3)
+      expect(stackMin.pop()).to.be.equal(2)
+      expect(stackMin.pop()).to.be.equal(1)
+      expect(stackMin.pop()).to.be.equal(null)
+
+    })
+
+    it('implements min in O(1) time', () => {
+      stackMin.push(3)
+      stackMin.push(4)
+      stackMin.push(2)
+      stackMin.push(1)
+      stackMin.push(3)
+      expect(stackMin.min()).to.be.equal(1)
+      stackMin.pop()
+      stackMin.pop()
+      expect(stackMin.min()).to.be.equal(2)
+      stackMin.pop()
+      expect(stackMin.min()).to.be.equal(3)
+
+
+
     })
   })
 

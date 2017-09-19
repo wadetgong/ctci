@@ -41,6 +41,7 @@ describe('Chapter 3: Stacks and Queues', () => {
   })
 
   // 3.2 stackMin
+  // Tests don't evaluate runtime complexity, only behavior
   describe('StackMin', () => {
     let stackMin
     beforeEach(() => {

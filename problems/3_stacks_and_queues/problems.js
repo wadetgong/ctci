@@ -51,37 +51,34 @@ class ThreeInOne {
 // 3.2 StackMin
 class StackMin {
   constructor() {
-    this.list = new LinkedList()
-    this.minVal = null
+    this.mainList = new LinkedList()
+    this.minList = new LinkedList()
   }
 
   push(value) {
-    this.list.addToHead(value)
-    if (value < this.minVal || this.minVal === null) this.minVal = value
+    this.mainList.addToHead(value)
+    if (this.minList.length()) {
+      let currentMin = this.minList.head.value
+      if (currentMin < value) this.minList.addToHead(currentMin)
+      else this.minList.addToHead(value)
+    } else {
+      this.minList.addToHead(value)
+    }
   }
 
   peek() {
-    return this.list.searchNodeAt(0).value
+    return this.mainList.searchNodeAt(0).value
   }
 
   pop() {
-    let returnNode = this.list.remove(0)
+    let returnNode = this.mainList.remove(0)
     let returnVal = returnNode && returnNode.value
-    if (returnVal === this.minVal) this.resetMin()
+    this.minList.remove(0)
     return returnVal
   }
 
   min() {
-    return this.minVal
-  }
-
-  resetMin() {
-    let currentNode = this.list.head
-    this.minVal = this.list.head && this.list.head.value
-    while (currentNode) {
-      if (currentNode.value < this.minVal) this.minVal = currentNode.value
-      currentNode = currentNode.next
-    }
+    return this.minList.head && this.minList.head.value
   }
 }
 

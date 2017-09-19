@@ -55,9 +55,11 @@ LinkedList.prototype.search = function(value) {
 }
 
 LinkedList.prototype.remove = function(position) {
+  if (this.length() === 0 || position >= this.length()) return null
+
   let currentNode = this.head
   if (position === 0) {
-    this.head = currentNode && currentNode.next
+    this.head = currentNode.next
     return currentNode
   }
   for (let i = 0; i < position - 1; i++) {
@@ -66,7 +68,7 @@ LinkedList.prototype.remove = function(position) {
   }
   let removedNode = currentNode && currentNode.next
   if (removedNode) {
-    currentNode.next = currentNode.next.next
+    currentNode.next = removedNode.next
     return removedNode
   }
   return null

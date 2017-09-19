@@ -27,6 +27,8 @@ class DoublyLinkedList extends LinkedList {
   }
 
   remove(position) {
+    if (this.length() === 0 || position >= this.length()) return null
+
     let currentNode = this.head
     if (position === 0) {
       this.head = currentNode.next
@@ -39,7 +41,7 @@ class DoublyLinkedList extends LinkedList {
     }
     let removedNode = currentNode && currentNode.next
     if (removedNode) {
-      let nextNode = currentNode.next.next
+      let nextNode = removedNode.next
       currentNode.next = nextNode
       if (nextNode) nextNode.previous = currentNode
       return removedNode

@@ -1,4 +1,5 @@
 const { LinkedList } = require('../2_linked_lists/LinkedList')
+const { Stack } = require('./Stack')
 
 // 3.1 ThreeInOne
 class ThreeInOne {
@@ -82,7 +83,67 @@ class StackMin {
   }
 }
 
+// 3.3 stackOfPlates
+class SetOfStacks {
+  constructor(stackHeight) {
+    this._stackHeight = stackHeight
+    this._stackContainer = new Stack()
+  }
+
+  push(value) {
+    let currentStack = this._stackContainer.peek()
+    if (currentStack) {
+      if (currentStack.length() >= this._stackHeight) {
+        this._insertNewStackAndValue(value)
+      } else {
+        currentStack.push(value)
+      }
+    } else {
+      this._insertNewStackAndValue(value)
+    }
+  }
+
+  _insertNewStackAndValue(value) {
+    this._stackContainer.push(new Stack())
+    let currentStack = this._stackContainer.peek()
+    currentStack.push(value)
+  }
+
+  pop() {
+    let currentStack = this._stackContainer.peek()
+    if (currentStack) {
+      if (currentStack.length()) {
+        return currentStack.pop()
+      } else {
+        this._stackContainer.pop()
+        return this.pop()
+      }
+    }
+    return null
+  }
+
+  // index of 0 represents the topmost substack; does not remove an empty substack if popAt clears the last element in the substack
+  popAt(index) {
+    let length = this._stackContainer.length()
+    if (index >= length) return null
+    let currentStack = this._stackContainer.stack.head
+    for (let i = 0; i < index; i++) {
+      currentStack = currentStack.next
+    }
+    if (currentStack) return currentStack.value.pop()
+    return null
+  }
+
+  peek() {
+    let currentStack = this._stackContainer.peek()
+    if (currentStack) return currentStack.peek()
+    return null
+  }
+}
+
+
 module.exports = {
   ThreeInOne,
   StackMin,
+  SetOfStacks,
 }

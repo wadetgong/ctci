@@ -141,9 +141,56 @@ class SetOfStacks {
   }
 }
 
+// 3.4 queueViaStacks
+class MyQueue {
+  constructor() {
+    this.inOrderStack = new Stack()
+    this.reverseOrderStack = new Stack()
+  }
+
+  add(value) {
+    if (this.inOrderStack.peek()) {
+      this._shiftItems(this.inOrderStack, this.reverseOrderStack)
+    }
+    this.reverseOrderStack.push(value)
+  }
+
+  remove() {
+    if (this.reverseOrderStack.peek()) {
+      this._shiftItems(this.reverseOrderStack, this.inOrderStack)
+    }
+    if (this.inOrderStack.peek()) return this.inOrderStack.pop()
+    return null
+  }
+
+  isEmpty() {
+    return this.inOrderStack.length() + this.reverseOrderStack.length() === 0
+  }
+
+  peek() {
+    if (this.reverseOrderStack.peek()) {
+      this._shiftItems(this.reverseOrderStack, this.inOrderStack)
+    }
+    return this.inOrderStack.peek()
+  }
+
+  _shiftItems(stackFrom, stackTo) {
+    while (stackFrom.peek()) {
+      stackTo.push(stackFrom.pop())
+    }
+  }
+}
+
+// 3.5 sortStack
+const sortStack = (stack, compare = (a, b) => a < b) => {
+
+  return stack
+}
 
 module.exports = {
   ThreeInOne,
   StackMin,
   SetOfStacks,
+  MyQueue,
+  sortStack,
 }

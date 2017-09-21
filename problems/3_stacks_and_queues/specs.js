@@ -4,11 +4,13 @@ const {
   ThreeInOne,
   StackMin,
   SetOfStacks,
+  MyQueue,
+  sortStack,
 } = require('./problems')
 
 
 describe('Chapter 3: Stacks and Queues', () => {
-  // 3,0 Stack
+  // 3.0 Stack
   describe('Stack', () => {
     let stack
     beforeEach(() => {
@@ -145,7 +147,7 @@ describe('Chapter 3: Stacks and Queues', () => {
     })
   })
 
-  // 3.2 stackOfPlates
+  // 3.3 stackOfPlates
   describe('stackOfPlates', () => {
     let plateStack
     beforeEach(() => {
@@ -217,6 +219,75 @@ describe('Chapter 3: Stacks and Queues', () => {
       expect(plateStack.popAt(0)).to.be.equal(9)
       expect(plateStack.popAt(1)).to.be.equal(null)
     })
-
   })
+
+  // 3.4 queueViaStacks
+  // Tests don't evaluate implementation, only behavior
+  describe('queueViaStacks', () => {
+    let myQueue
+    beforeEach(() => {
+      myQueue = new MyQueue()
+    })
+
+    it('adds and removes elements to the MyQueue in first in first out order', () => {
+      myQueue.add(1)
+      myQueue.add(2)
+      myQueue.add(3)
+      expect(myQueue.remove()).to.be.equal(1)
+      expect(myQueue.remove()).to.be.equal(2)
+      expect(myQueue.remove()).to.be.equal(3)
+    })
+
+    it('returns null if remove is called on an empty MyQueue', () => {
+      expect(myQueue.remove()).to.be.equal(null)
+    })
+
+    it('returns true if isEmpty is called on an empty MyQueue', () => {
+      expect(myQueue.isEmpty()).to.be.equal(true)
+      myQueue.add(1)
+      expect(myQueue.isEmpty()).to.be.equal(false)
+    })
+
+    it('returns the first element if peek is called on a non-empty MyQueue', () => {
+      myQueue.add('first')
+      myQueue.add('second')
+      myQueue.add('third')
+      expect(myQueue.peek()).to.be.equal('first')
+      myQueue.remove()
+      expect(myQueue.peek()).to.be.equal('second')
+    })
+
+    it('returns null if peek is called on an empty MyQueue', () => {
+      expect(myQueue.peek()).to.be.equal(null)
+    })
+  })
+
+  // 3.5 sortStack
+  describe('sortStack', () => {
+    let stack
+    beforeEach(() => {
+      stack = new Stack()
+    })
+
+    it('sorts a stack with smallest value on top', () => {
+      stack.push(1)
+      stack.push(2)
+      stack.push(5)
+      stack.push(3)
+      stack.push(4)
+      let sortedStack = sortStack(stack)
+      expect(sortedStack.peek()).to.be.equal(1)
+      sortedStack.pop()
+      expect(sortedStack.peek()).to.be.equal(2)
+      sortedStack.pop()
+      expect(sortedStack.peek()).to.be.equal(3)
+      sortedStack.pop()
+      expect(sortedStack.peek()).to.be.equal(4)
+      sortedStack.pop()
+      expect(sortedStack.peek()).to.be.equal(5)
+      expect(sortedStack.peek()).to.be.equal(null)
+    })
+  })
+
+
 })

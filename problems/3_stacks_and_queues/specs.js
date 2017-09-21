@@ -1,16 +1,18 @@
 const { expect } = require('chai')
-const { Stack } = require('./Stack')
+const Stack = require('./Stack')
+const Queue = require('./Queue')
 const {
   ThreeInOne,
   StackMin,
   SetOfStacks,
   MyQueue,
   sortStack,
+  AnimalShelter,
 } = require('./problems')
 
 
 describe('Chapter 3: Stacks and Queues', () => {
-  // 3.0 Stack
+  // 3.0 Stack and Queue
   describe('Stack', () => {
     let stack
     beforeEach(() => {
@@ -51,6 +53,45 @@ describe('Chapter 3: Stacks and Queues', () => {
     it('returns null if pop or peek is called on an empty stack', () => {
       expect(stack.peek()).to.be.equal(null)
       expect(stack.pop()).to.be.equal(null)
+    })
+  })
+
+  describe('Queue', () => {
+    let queue
+    beforeEach(() => {
+      queue = new Queue()
+    })
+
+    it('adds and removes elements in first in first out pattern', () => {
+      queue.add(1)
+      queue.add(2)
+      queue.add(3)
+      queue.add(4)
+      expect(queue.remove()).to.be.equal(1)
+      expect(queue.remove()).to.be.equal(2)
+      expect(queue.remove()).to.be.equal(3)
+      expect(queue.remove()).to.be.equal(4)
+    })
+
+    it('returns the first element when peek is called on a non-empty Queue', () => {
+      queue.add('first')
+      queue.add('second')
+      queue.add('third')
+      expect(queue.peek()).to.be.equal('first')
+    })
+
+    it('returns null when remove or peek is called on an empty Queue', () => {
+      expect(queue.remove()).to.be.equal(null)
+      expect(queue.peek()).to.be.equal(null)
+    })
+
+    it('returns true if the Queue is empty, and false if the Queue is not empty', () => {
+      expect(queue.isEmpty()).to.be.equal(true)
+      queue.add('fill')
+      expect(queue.isEmpty()).to.be.equal(false)
+      queue.remove()
+      expect(queue.isEmpty()).to.be.equal(true)
+
     })
   })
 
@@ -279,9 +320,34 @@ describe('Chapter 3: Stacks and Queues', () => {
       expect(sortedStack.peek()).to.be.equal(4)
       sortedStack.pop()
       expect(sortedStack.peek()).to.be.equal(5)
+      sortedStack.pop()
       expect(sortedStack.peek()).to.be.equal(null)
+    })
+
+    it('returns itself when sortStack is called with an empty stack', () => {
+      expect(sortStack(stack)).to.be.equal(stack)
+    })
+
+    it('accepts a compare function as the sorting method', () => {
+      stack.push('longer')
+      stack.push('longest')
+      stack.push('short')
+      stack.push('longestever')
+      sortStack(stack, (a, b) => a.length < b.length)
+      expect(stack.peek()).to.be.equal('short')
+      stack.pop()
+      expect(stack.peek()).to.be.equal('longer')
+      stack.pop()
+      expect(stack.peek()).to.be.equal('longest')
+      stack.pop()
+      expect(stack.peek()).to.be.equal('longestever')
+      stack.pop()
+      expect(stack.peek()).to.be.equal(null)
     })
   })
 
+  // 3.6 AnimalShelter
+  describe('AnimalShelter', () => {
 
+  })
 })

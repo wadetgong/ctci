@@ -1,5 +1,5 @@
 const { LinkedList } = require('../2_linked_lists/LinkedList')
-const { Stack } = require('./Stack')
+const Stack = require('./Stack')
 
 // 3.1 ThreeInOne
 class ThreeInOne {
@@ -107,12 +107,6 @@ class SetOfStacks {
     }
   }
 
-  _insertNewStackAndValue(value) {
-    this._stackContainer.push(new Stack())
-    let currentStack = this._stackContainer.peek()
-    currentStack.push(value)
-  }
-
   pop() {
     let currentStack = this._stackContainer.peek()
     if (currentStack) {
@@ -126,6 +120,22 @@ class SetOfStacks {
       }
     }
     return null
+  }
+
+  peek() {
+    let currentStack = this._stackContainer.peek()
+    if (currentStack) return currentStack.peek()
+    return null
+  }
+
+  isEmpty() {
+    return this.peek() === null
+  }
+
+  _insertNewStackAndValue(value) {
+    this._stackContainer.push(new Stack())
+    let currentStack = this._stackContainer.peek()
+    currentStack.push(value)
   }
 
   // index of 0 represents the topmost substack; does not remove an empty substack if popAt clears the last element in the substack
@@ -152,20 +162,6 @@ class SetOfStacks {
       this._stackContainer.push(tempStack.pop())
     }
     return returnVal
-    // let length = this._stackContainer.length()
-    // if (index >= length) return null
-    // let currentStack = this._stackContainer.stack.head
-    // for (let i = 0; i < index; i++) {
-    //   currentStack = currentStack.next
-    // }
-    // if (currentStack) return currentStack.value.pop()
-    // return null
-  }
-
-  peek() {
-    let currentStack = this._stackContainer.peek()
-    if (currentStack) return currentStack.peek()
-    return null
   }
 }
 
@@ -210,9 +206,62 @@ class MyQueue {
 }
 
 // 3.5 sortStack
-const sortStack = (stack, compare = (a, b) => a < b) => {
+const resetStack = (mainStack, tempStack, compare) => {
+  let currentVal = tempStack.pop()
+  let sorted = true
+  while (tempStack.peek()) {
+    if (compare(currentVal, tempStack.peek())) sorted = false
+    mainStack.push(currentVal)
+    currentVal = tempStack.pop()
+  }
+  if (currentVal) {
+    mainStack.push(currentVal)
+  }
+  return sorted
+}
 
+const sortStack = (stack, compare = (a, b) => a < b) => {
+  let tempStack = new Stack()
+  let sorted = false
+  let valInHand
+
+  while (!sorted) {
+    valInHand = stack.pop()
+    while (stack.peek()) {
+      if (compare(valInHand, stack.peek())) {
+        tempStack.push(valInHand)
+        valInHand = stack.pop()
+      } else {
+        tempStack.push(stack.pop())
+      }
+    }
+    if (valInHand) tempStack.push(valInHand)
+    sorted = resetStack(stack, tempStack, compare)
+  }
   return stack
+}
+
+// 3.6 AnimalShelter
+class AnimalShelter {
+  constructor() {
+    this.queue = null
+  }
+
+  enqueue() {
+
+  }
+
+  dequeueAny() {
+
+  }
+
+  dequeueDog() {
+
+  }
+
+  dequeueCat() {
+
+  }
 }
 
 module.exports = {
@@ -221,4 +270,5 @@ module.exports = {
   SetOfStacks,
   MyQueue,
   sortStack,
+  AnimalShelter,
 }

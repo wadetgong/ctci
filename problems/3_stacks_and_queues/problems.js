@@ -88,18 +88,22 @@ class SetOfStacks {
   constructor(stackHeight) {
     this._stackHeight = stackHeight
     this._stackContainer = new Stack()
+    this._currentHeight = 0
   }
 
   push(value) {
     let currentStack = this._stackContainer.peek()
     if (currentStack) {
-      if (currentStack.length() >= this._stackHeight) {
+      if (this._currentHeight >= this._stackHeight) {
         this._insertNewStackAndValue(value)
+        this._currentHeight = 1
       } else {
         currentStack.push(value)
+        this._currentHeight++
       }
     } else {
       this._insertNewStackAndValue(value)
+      this._currentHeight = 1
     }
   }
 
@@ -112,10 +116,12 @@ class SetOfStacks {
   pop() {
     let currentStack = this._stackContainer.peek()
     if (currentStack) {
-      if (currentStack.length()) {
+      if (currentStack.peek()) {
+        this._currentHeight--
         return currentStack.pop()
       } else {
         this._stackContainer.pop()
+        this._currentHeight = this._stackHeight
         return this.pop()
       }
     }
@@ -124,14 +130,36 @@ class SetOfStacks {
 
   // index of 0 represents the topmost substack; does not remove an empty substack if popAt clears the last element in the substack
   popAt(index) {
-    let length = this._stackContainer.length()
-    if (index >= length) return null
-    let currentStack = this._stackContainer.stack.head
+    let tempStack = new Stack()
     for (let i = 0; i < index; i++) {
-      currentStack = currentStack.next
+      if (this._stackContainer.peek()) {
+        tempStack.push(this._stackContainer.pop())
+      } else {
+        // Reset this._stackContainer
+        while (tempStack.peek()) {
+          this._stackContainer.push(tempStack.pop())
+        }
+        return null
+      }
     }
-    if (currentStack) return currentStack.value.pop()
-    return null
+
+    let returnVal = null
+    let currentStack = this._stackContainer.peek()
+    if (currentStack && currentStack.peek()) {
+      returnVal = currentStack.pop()
+    }
+    while (tempStack.peek()) {
+      this._stackContainer.push(tempStack.pop())
+    }
+    return returnVal
+    // let length = this._stackContainer.length()
+    // if (index >= length) return null
+    // let currentStack = this._stackContainer.stack.head
+    // for (let i = 0; i < index; i++) {
+    //   currentStack = currentStack.next
+    // }
+    // if (currentStack) return currentStack.value.pop()
+    // return null
   }
 
   peek() {
@@ -164,7 +192,7 @@ class MyQueue {
   }
 
   isEmpty() {
-    return this.inOrderStack.length() + this.reverseOrderStack.length() === 0
+    return this.inOrderStack.peek() === null && this.reverseOrderStack.peek() === null
   }
 
   peek() {

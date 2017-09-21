@@ -18,12 +18,8 @@ class Stack {
     return this.stack.head && this.stack.head.value
   }
 
-  length() {
-    return this.stack.length()
-  }
-
   isEmpty() {
-    return this.stack.length() === 0
+    return this.peek() === null
   }
 }
 

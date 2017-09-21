@@ -17,12 +17,6 @@ describe('Chapter 3: Stacks and Queues', () => {
       stack = new Stack()
     })
 
-    it('implements length correctly', () => {
-      expect(stack.length()).to.be.equal(0)
-      stack.stack.addToHead('first')
-      expect(stack.length()).to.be.equal(1)
-    })
-
     it('implements isEmpty correctly', () => {
       expect(stack.isEmpty()).to.be.equal(true)
       stack.stack.addToHead('first')
@@ -33,7 +27,7 @@ describe('Chapter 3: Stacks and Queues', () => {
       stack.push(1)
       stack.push(2)
       stack.push(3)
-      expect(stack.length()).to.be.equal(3)
+      expect(stack.peek()).to.be.equal(3)
     })
 
     it('pushes and pops elements in a first in last out pattern', () => {
@@ -169,7 +163,7 @@ describe('Chapter 3: Stacks and Queues', () => {
       plateStack.push(3)
       plateStack.push(4)
       plateStack.push(5)
-      expect(plateStack._stackContainer.peek().length()).to.be.equal(1)
+      expect(plateStack._stackContainer.peek().peek()).to.be.equal(5)
     })
 
     it('pops elements from their respective substacks correctly', () => {
@@ -197,7 +191,7 @@ describe('Chapter 3: Stacks and Queues', () => {
       plateStack.pop()
       expect(plateStack.pop()).to.be.equal(null)
       expect(plateStack.peek()).to.be.equal(null)
-      expect(plateStack._stackContainer.length()).to.be.equal(0)
+      expect(plateStack._stackContainer.peek()).to.be.equal(null)
     })
 
     it('removes and returns the topmost element on a specific substack when popAt is called', () => {

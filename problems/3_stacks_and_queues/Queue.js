@@ -20,7 +20,7 @@ class Queue {
   }
 
   isEmpty() {
-    return this.list.length() === 0
+    return !this.peek()
   }
 }
 

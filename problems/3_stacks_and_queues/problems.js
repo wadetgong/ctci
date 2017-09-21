@@ -242,25 +242,51 @@ const sortStack = (stack, compare = (a, b) => a < b) => {
 }
 
 // 3.6 AnimalShelter
+class Animal {
+  constructor(type, name) {
+    this.type = type
+    this.name = name
+  }
+}
+
 class AnimalShelter {
-  constructor() {
-    this.queue = null
+  constructor(validAnimals) {
+    this.validAnimals = validAnimals
+    this.list = new LinkedList()
   }
 
-  enqueue() {
-
+  enqueue(animal) {
+    if (!this.validAnimals[animal.type] || !(animal instanceof Animal)) {
+      throw new TypeError('Invalid animal type :(')
+    }
+    this.list.addToTail(animal)
   }
 
   dequeueAny() {
-
+    let removeNode = this.list.remove(0)
+    return removeNode && removeNode.value
   }
 
   dequeueDog() {
-
+    return this.dequeueNext('dog')
   }
 
   dequeueCat() {
+    return this.dequeueNext('cat')
+  }
 
+  dequeueNext(animalType) {
+    let i = 0
+    let currentAnimalNode = this.list.head
+    while (currentAnimalNode) {
+      if (currentAnimalNode.value.type === animalType) {
+        return this.list.remove(i).value
+      } else {
+        i++
+        currentAnimalNode = currentAnimalNode.next
+      }
+    }
+    return null
   }
 }
 
@@ -271,4 +297,5 @@ module.exports = {
   MyQueue,
   sortStack,
   AnimalShelter,
+  Animal,
 }

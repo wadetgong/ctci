@@ -8,10 +8,11 @@ const {
   MyQueue,
   sortStack,
   AnimalShelter,
+  Animal,
 } = require('./problems')
 
 
-describe('Chapter 3: Stacks and Queues', () => {
+describe('Chapter 3: Stacks and Queues - ', () => {
   // 3.0 Stack and Queue
   describe('Stack', () => {
     let stack
@@ -348,6 +349,69 @@ describe('Chapter 3: Stacks and Queues', () => {
 
   // 3.6 AnimalShelter
   describe('AnimalShelter', () => {
+    let animalShelter
+    beforeEach(() => {
+      animalShelter = new AnimalShelter({cat: true, dog: true})
+    })
 
+    it('adds and removes cats and dogs to the AnimalShelter in first in first order', () => {
+      let george = new Animal('cat', 'George')
+      let dug = new Animal('dog', 'Dug')
+      let grumpy = new Animal('cat', 'Grumpy')
+      animalShelter.enqueue(george)
+      animalShelter.enqueue(dug)
+      animalShelter.enqueue(grumpy)
+      expect(animalShelter.dequeueAny().name).to.be.equal('George')
+      expect(animalShelter.dequeueAny().name).to.be.equal('Dug')
+      expect(animalShelter.dequeueAny().name).to.be.equal('Grumpy')
+      expect(animalShelter.dequeueAny()).to.be.equal(null)
+    })
+
+    it('throws a TypeError if a non-cat, non-dog Animal is enqueued', () => {
+      let dumbo = new Animal('elephant', 'Dumbo')
+      expect(() => animalShelter.enqueue(dumbo)).to.throw(TypeError)
+    })
+
+    it('removes and returns the first dog in the AnimalShelter when dequeueDog is called', () => {
+      let kate = new Animal('cat', 'Kate')
+      let cobee = new Animal('dog', 'Cobee')
+      let george = new Animal('cat', 'George')
+      let dug = new Animal('dog', 'Dug')
+      animalShelter.enqueue(kate)
+      animalShelter.enqueue(cobee)
+      animalShelter.enqueue(george)
+      animalShelter.enqueue(dug)
+      expect(animalShelter.dequeueDog().name).to.be.equal('Cobee')
+      expect(animalShelter.dequeueDog().name).to.be.equal('Dug')
+    })
+
+    it('removes and returns the first cat in the AnimalShelter when dequeueCat is called', () => {
+      let cobee = new Animal('dog', 'Cobee')
+      let kate = new Animal('cat', 'Kate')
+      let dug = new Animal('dog', 'Dug')
+      let george = new Animal('cat', 'George')
+      animalShelter.enqueue(cobee)
+      animalShelter.enqueue(kate)
+      animalShelter.enqueue(dug)
+      animalShelter.enqueue(george)
+      expect(animalShelter.dequeueCat().name).to.be.equal('Kate')
+      expect(animalShelter.dequeueCat().name).to.be.equal('George')
+    })
+
+    it('returns null if no cats are available when dequeueCat is called', () => {
+      let cobee = new Animal('dog', 'Cobee')
+      let dug = new Animal('dog', 'Dug')
+      animalShelter.enqueue(cobee)
+      animalShelter.enqueue(dug)
+      expect(animalShelter.dequeueCat()).to.be.equal(null)
+    })
+
+    it('returns null if no dogs are available when dequeueDog is called', () => {
+      let kate = new Animal('cat', 'Kate')
+      let george = new Animal('cat', 'George')
+      animalShelter.enqueue(kate)
+      animalShelter.enqueue(george)
+      expect(animalShelter.dequeueDog()).to.be.equal(null)
+    })
   })
 })

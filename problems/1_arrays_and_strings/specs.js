@@ -12,7 +12,7 @@ const {
 } = require('./problems')
 
 
-describe('Chapter 1: Arrays and Strings', () => {
+describe('Chapter 1: Arrays and Strings - ', () => {
   // 1.1 isUnique
   describe('isUnique', () => {
     it('returns true for an empty string', () => {

@@ -108,7 +108,6 @@ const sumListsInOrder = (linkedList1, linkedList2) => {
   let number1 = getIntFromLL(linkedList1)
   let number2 = getIntFromLL(linkedList2)
   let targetNum = (number1 + number2).toString()
-  // console.log(targetNum)
   let sumList = new LinkedList()
   for (let i = 0; i < targetNum.length; i++) {
     sumList.addToTail(parseInt(targetNum[i], 10))

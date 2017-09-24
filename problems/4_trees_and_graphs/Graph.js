@@ -1,7 +1,17 @@
 class Graph {
-  constructor(nodesArr) {
+  constructor(...nodesArr) {
     this.nodesArr = nodesArr
   }
 }
 
-module.exports = Graph
+class GraphNode {
+  constructor(value) {
+    this.value = value
+    this.children = []
+  }
+  add(...nodes) {
+    this.children = [...this.children, ...nodes]
+  }
+}
+
+module.exports = { Graph, GraphNode }

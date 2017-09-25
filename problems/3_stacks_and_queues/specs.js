@@ -12,7 +12,7 @@ const {
 } = require('./problems')
 
 
-describe('Chapter 3: Stacks and Queues - ', () => {
+describe('Chapter 3: Stacks and Queues -', () => {
   // 3.0 Stack and Queue
   describe('Stack', () => {
     let stack

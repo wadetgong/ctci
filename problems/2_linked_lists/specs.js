@@ -13,7 +13,7 @@ const {
   loopDetection,
 } = require('./problems')
 
-describe('Chapter 2: Linked Lists - ', () => {
+describe('Chapter 2: Linked Lists -', () => {
 
   // 2.0 SinglyLinkedList and DoublyLinkedList
   describe('SinglyLinkedList', () => {

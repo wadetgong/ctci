@@ -1,13 +1,16 @@
 const { expect } = require('chai')
 const { GraphNode, Graph } = require('./Graph')
 const BinarySearchTree = require('./BinarySearchTree')
+const BinaryTree = require('./BinaryTree')
+const { LinkedList } = require('../2_linked_lists/LinkedList')
 const {
   routeBetweenNodes,
   minimalTree,
   listOfDepths,
+  checkBalanced,
 } = require('./problems')
 
-describe('Chapter 4: Trees and Graphs - ', () => {
+describe('Chapter 4: Trees and Graphs -', () => {
   // 4.0 BinarySearchTree
   describe('BinarySearchTree', () => {
     let bst
@@ -100,6 +103,51 @@ describe('Chapter 4: Trees and Graphs - ', () => {
 
   //4.3 listOfDepths
   describe('listOfDepths', () => {
+    let node1, node2, node3, node4, node5, depthList
+    beforeEach(() => {
+      node1 = new BinaryTree(1)
+      node2 = new BinaryTree(2)
+      node3 = new BinaryTree(3)
+      node4 = new BinaryTree(4)
+      node5 = new BinaryTree(5)
+      node1.left = node2
+      node1.right = node3
+      node3.right = node4
+      node4.right = node5
+      depthList = listOfDepths(node1)
+    })
 
+    it('returns a LinkedList of length n, where n is the depth of the binary tree', () => {
+      expect(depthList).to.be.an.instanceof(LinkedList)
+      expect(depthList.length()).to.be.equal(4)
+    })
+
+    it('assigns nodes to their respective LinkedList by depth', () => {
+      expect(depthList.head.value.search(node1)).to.be.equal(true)
+      expect(depthList.head.value.length()).to.be.equal(1)
+      expect(depthList.head.value.search(node2)).to.be.equal(false)
+      expect(depthList.head.next.value.search(node2)).to.be.equal(true)
+      expect(depthList.head.next.value.search(node3)).to.be.equal(true)
+      expect(depthList.head.next.value.length()).to.be.equal(2)
+      expect(depthList.head.next.next.value.search(node4)).to.be.equal(true)
+      expect(depthList.head.next.next.value.length()).to.be.equal(1)
+      expect(depthList.head.next.next.next.value.search(node5)).to.be.equal(true)
+      expect(depthList.head.next.next.next.value.length()).to.be.equal(1)
+    })
+  })
+
+  // 4.4 checkBalanced
+  describe('checkBalanced', () => {
+    it('returns returns true for a tree that is balanced', () => {
+
+    })
+
+    it('returns returns false for a tree that is not balanced', () => {
+
+    })
+
+    it('returns returns false if for any given node in the tree, the height of any node\'s left child and the height of any node\'s right child differ by more than 1', () => {
+
+    })
   })
 })

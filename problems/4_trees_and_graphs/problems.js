@@ -42,7 +42,26 @@ const minimalTree = sortedArr => {
 }
 
 // 4.3 listOfDepths
-const listOfDepths = bst => {
+const buildDepthList = (bst, linkedList, depth) => {
+  if (bst) {
+    if (!linkedList.searchNodeAt(depth)) {
+      linkedList.addToTail(new LinkedList())
+    }
+    let depthList = linkedList.searchNodeAt(depth).value
+    depthList.addToTail(bst)
+    if (bst.left) buildDepthList(bst.left, linkedList, depth + 1)
+    if (bst.right) buildDepthList(bst.right, linkedList, depth + 1)
+  }
+  return linkedList
+}
+
+const listOfDepths = (bst) => {
+  let depthLinkedList = new LinkedList()
+  return buildDepthList(bst, depthLinkedList, 0)
+}
+
+// 4.4 checkBalanced
+const checkBalanced = bst => {
 
 }
 
@@ -50,4 +69,5 @@ module.exports = {
   routeBetweenNodes,
   minimalTree,
   listOfDepths,
+  checkBalanced,
 }

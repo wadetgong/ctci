@@ -464,9 +464,15 @@ describe('Chapter 4: Trees and Graphs -', () => {
       let nodeB1 = new BinarySearchTree(9)
       let nodeB2 = new BinarySearchTree(10)
       let nodeB3 = new BinarySearchTree(11)
-      nodeB1.left = nodeB2
-      nodeB1.right = nodeB3
+      let nodeB4 = new BinarySearchTree(4)
+      let nodeB5 = new BinarySearchTree(6)
+      let nodeB6 = new BinarySearchTree(8)
+      nodeB2.left = nodeB1
+      nodeB2.right = nodeB3
       expect(checkSubtree(node8, nodeB1)).to.be.equal(true)
+      nodeB5.left = nodeB4
+      nodeB5.right = nodeB6
+      expect(checkSubtree(node8, nodeB5)).to.be.equal(false)
     })
   })
 })

@@ -176,9 +176,22 @@ const bstSequences = (bst, arrPerms = [], nextChildren = []) => {
 }
 
 // 4.10 checkSubtree
-const checkSubtree = (bst1, bst2) => {
+const compareTree = (bst1, bst2) => {
+  let bst1Val = bst1 && bst1.value
+  let bst2Val = bst2 && bst2.value
+  if (bst1Val !== bst2Val) return false
+  if (!bst1 && !bst2) return true
 
+  return compareTree(bst1.left, bst2.left) && compareTree(bst1.right, bst2.right)
 }
+
+const checkSubtree = (bst1, bst2) => {
+  if (!bst1) return false
+  if (compareTree(bst1, bst2)) return true
+  return checkSubtree(bst1.left, bst2) || checkSubtree(bst1.right, bst2)
+}
+
+
 
 module.exports = {
   routeBetweenNodes,

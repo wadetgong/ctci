@@ -369,15 +369,23 @@ describe('Chapter 4: Trees and Graphs -', () => {
 
   // 4.9 bstSequences
   describe('bstSequences', () => {
-    let node1, node2, node3
+    let node0, node1, node2, node3, node4
     it('provides an array of arrays of valid insert seqeuences to produce the given binary search tree', () => {
+      node0 = new BinarySearchTree(0)
       node1 = new BinarySearchTree(1)
       node2 = new BinarySearchTree(2)
       node3 = new BinarySearchTree(3)
+      node4 = new BinarySearchTree(4)
+      node5 = new BinarySearchTree(5)
       node2.left = node1
       node2.right = node3
       expect(bstSequences(node2)).to.be.an.instanceof(Array)
       expect(bstSequences(node2).length).to.be.equal(2)
+      node3.right = node4
+      node1.left = node0
+      expect(bstSequences(node2).length).to.be.equal(6)
+      node4.right = node5
+      expect(bstSequences(node2).length).to.be.equal(10)
     })
   })
 

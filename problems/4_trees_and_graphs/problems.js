@@ -156,7 +156,27 @@ const firstCommonAncestor = (node1, node2, rootNode) => {
 }
 
 // 4.9 bstSequences
-const bstSequences = bst => {
+const bstSequences = (bst, arrPerms = [], nextChildren = []) => {
+  if (!arrPerms.length) {
+    arrPerms.push([bst.value])
+  } else {
+    arrPerms = arrPerms.map(perm => [...perm, bst.value])
+  }
+  if (bst.left) nextChildren.push(bst.left)
+  if (bst.right) nextChildren.push(bst.right)
+
+  if (!nextChildren.length) return arrPerms
+
+  let subTrees = []
+  for (let i = 0; i < nextChildren.length; i++) {
+    let newChildren = [...nextChildren.slice(0, i), ...nextChildren.slice(i + 1)]
+    subTrees = [...subTrees, ...bstSequences(nextChildren[i], arrPerms, newChildren)]
+  }
+  return subTrees
+}
+
+// 4.10 checkSubtree
+const checkSubtree = (bst1, bst2) => {
 
 }
 
@@ -170,4 +190,5 @@ module.exports = {
   buildOrder,
   firstCommonAncestor,
   bstSequences,
+  checkSubtree,
 }

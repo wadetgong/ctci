@@ -192,6 +192,20 @@ const checkSubtree = (bst1, bst2) => {
 }
 
 
+// 4.11 randomNode
+const randomNode = bst => {
+  let queue = [bst]
+  let currentNode
+  let nodeArr = []
+  while (queue.length) {
+    currentNode = queue.shift()
+    nodeArr.push(currentNode)
+    if (currentNode.left) queue.push(currentNode.left)
+    if (currentNode.right) queue.push(currentNode.right)
+  }
+  return nodeArr[Math.floor(nodeArr.length * Math.random())]
+
+}
 
 module.exports = {
   routeBetweenNodes,
@@ -204,4 +218,5 @@ module.exports = {
   firstCommonAncestor,
   bstSequences,
   checkSubtree,
+  randomNode,
 }

@@ -14,6 +14,7 @@ const {
   firstCommonAncestor,
   bstSequences,
   checkSubtree,
+  randomNode,
 } = require('./problems')
 
 describe('Chapter 4: Trees and Graphs -', () => {
@@ -473,6 +474,37 @@ describe('Chapter 4: Trees and Graphs -', () => {
       nodeB5.left = nodeB4
       nodeB5.right = nodeB6
       expect(checkSubtree(node8, nodeB5)).to.be.equal(false)
+    })
+  })
+
+  // 4.11 randomNode
+  describe('randomNode', () => {
+    it('selects a node at random from a given binary tree', () => {
+      let node1 = new BinaryTree(1)
+      let node2 = new BinaryTree(2)
+      let node3 = new BinaryTree(3)
+      let node4 = new BinaryTree(4)
+      let node5 = new BinaryTree(5)
+      let node6 = new BinaryTree(6)
+      let node7 = new BinaryTree(7)
+      node4.left = node2
+      node4.right = node6
+      node2.left = node1
+      node2.right = node3
+      node6.left = node5
+      node6.right = node7
+
+      let tally = {}
+      let selectedVal
+      for (let i = 0; i < 100000; i++) {
+        selectedVal = randomNode(node4).value
+        if (!tally[selectedVal]) tally[selectedVal] = 0
+        tally[selectedVal] += 1
+      }
+      for (let key in tally) {
+        expect(tally[key] / 100000).to.be.closeTo(0.14285, 0.03)
+      }
+
     })
   })
 })

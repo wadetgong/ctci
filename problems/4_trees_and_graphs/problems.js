@@ -157,17 +157,6 @@ const firstCommonAncestor = (node1, node2, rootNode) => {
 
 // 4.9 bstSequences
 const bstSequences = bst => {
-  let perms = [bst.value]
-  let newPerms = []
-  let leftPerms = bstSequences(bst.left)
-  let rightPerms = bstSequences(bst.right)
-  for (let i = 0; i < leftPerms.length; i++) {
-    for (let j = 0; j < rightPerms.length; j++) {
-      newPerms.push([bst.value, ...leftPerms[i], ...rightPerms[j]])
-      newPerms.push([bst.value, ...rightPerms[j], ...leftPerms[i]])
-    }
-  }
-  return newPerms
 
 }
 

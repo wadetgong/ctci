@@ -13,6 +13,7 @@ const {
   buildOrder,
   firstCommonAncestor,
   bstSequences,
+  checkSubtree,
 } = require('./problems')
 
 describe('Chapter 4: Trees and Graphs -', () => {
@@ -377,6 +378,87 @@ describe('Chapter 4: Trees and Graphs -', () => {
       node2.right = node3
       expect(bstSequences(node2)).to.be.an.instanceof(Array)
       expect(bstSequences(node2).length).to.be.equal(2)
+    })
+  })
+
+  // 4.10 checkSubtree
+  describe('checkSubtree', () => {
+    let node1, node2, node3, node4, node5, node6, node7, node8, node9, node10, node11, node12, node13, node14, node15
+    beforeEach(() => {
+      node1 = new BinarySearchTree(1)
+      node2 = new BinarySearchTree(2)
+      node3 = new BinarySearchTree(3)
+      node4 = new BinarySearchTree(4)
+      node5 = new BinarySearchTree(5)
+      node6 = new BinarySearchTree(6)
+      node7 = new BinarySearchTree(7)
+      node8 = new BinarySearchTree(8)
+      node9 = new BinarySearchTree(9)
+      node10 = new BinarySearchTree(10)
+      node11 = new BinarySearchTree(11)
+      node12 = new BinarySearchTree(12)
+      node13 = new BinarySearchTree(13)
+      node14 = new BinarySearchTree(14)
+      node15 = new BinarySearchTree(15)
+      node8.left = node4
+      node8.right = node12
+      node4.left = node2
+      node4.right = node6
+      node2.left = node1
+      node2.right = node3
+      node6.left = node5
+      node6.right = node7
+      node12.left = node10
+      node12.right = node14
+      node10.left = node9
+      node10.right = node11
+      node14.left = node13
+      node14.right = node15
+    })
+
+    it('returns true if parentBST contains childBST as a subtree', () => {
+      expect(checkSubtree(node8, node1)).to.be.equal(true)
+      expect(checkSubtree(node8, node2)).to.be.equal(true)
+      expect(checkSubtree(node8, node3)).to.be.equal(true)
+      expect(checkSubtree(node8, node4)).to.be.equal(true)
+      expect(checkSubtree(node8, node5)).to.be.equal(true)
+      expect(checkSubtree(node8, node6)).to.be.equal(true)
+      expect(checkSubtree(node8, node7)).to.be.equal(true)
+      expect(checkSubtree(node8, node9)).to.be.equal(true)
+      expect(checkSubtree(node8, node10)).to.be.equal(true)
+      expect(checkSubtree(node8, node11)).to.be.equal(true)
+      expect(checkSubtree(node8, node12)).to.be.equal(true)
+      expect(checkSubtree(node8, node13)).to.be.equal(true)
+      expect(checkSubtree(node8, node14)).to.be.equal(true)
+    })
+
+    it('returns false if parentBST contains childBST as a subtree', () => {
+      let nodeB1 = new BinarySearchTree(2)
+      let nodeB2 = new BinarySearchTree(4)
+      let nodeB3 = new BinarySearchTree(6)
+      let nodeB4 = new BinarySearchTree(8)
+      let nodeB5 = new BinarySearchTree(10)
+      let nodeB6 = new BinarySearchTree(12)
+      let nodeB7 = new BinarySearchTree(14)
+      nodeB4.left = nodeB2
+      nodeB4.right = nodeB6
+      nodeB2.left = nodeB1
+      nodeB2.right = nodeB3
+      nodeB6.left = nodeB5
+      nodeB6.right = nodeB7
+      expect(checkSubtree(node8, nodeB1)).to.be.equal(false)
+      expect(checkSubtree(node8, nodeB2)).to.be.equal(false)
+      expect(checkSubtree(node8, nodeB3)).to.be.equal(false)
+      expect(checkSubtree(node8, nodeB4)).to.be.equal(false)
+    })
+
+    it('returns checks subtrees by node values as opposed to node references', () => {
+      let nodeB1 = new BinarySearchTree(9)
+      let nodeB2 = new BinarySearchTree(10)
+      let nodeB3 = new BinarySearchTree(11)
+      nodeB1.left = nodeB2
+      nodeB1.right = nodeB3
+      expect(checkSubtree(node8, nodeB1)).to.be.equal(true)
     })
   })
 })

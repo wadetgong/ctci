@@ -1,6 +1,6 @@
 const BinarySearchTree = require('./BinarySearchTree')
 const { LinkedList } = require('../2_linked_lists/LinkedList')
-const { Graph, GraphNode } = require('./Graph')
+const { GraphNode } = require('./Graph')
 
 // 4.1 routeBetweenNodes
 const routeBetweenNodes = (nodeA, nodeB) => {
@@ -191,10 +191,9 @@ const checkSubtree = (bst1, bst2) => {
   return checkSubtree(bst1.left, bst2) || checkSubtree(bst1.right, bst2)
 }
 
-
 // 4.11 randomNode
-const randomNode = bst => {
-  let queue = [bst]
+const randomNode = binaryTree => {
+  let queue = [binaryTree]
   let currentNode
   let nodeArr = []
   while (queue.length) {
@@ -204,7 +203,26 @@ const randomNode = bst => {
     if (currentNode.right) queue.push(currentNode.right)
   }
   return nodeArr[Math.floor(nodeArr.length * Math.random())]
+}
 
+// 4.12 pathsWithSum
+const pathsFromNode = (binaryTree, target) => {
+  if (!binaryTree) return 0
+
+  let paths = 0
+  let currentValue = binaryTree.value
+  if (currentValue === target) paths++
+  paths += pathsFromNode(binaryTree.left, target - currentValue)
+    + pathsFromNode(binaryTree.right, target - currentValue)
+
+  return paths
+}
+
+const pathsWithSum = (binaryTree, target) => {
+  if (!binaryTree) return 0
+  return pathsFromNode(binaryTree, target)
+    + pathsWithSum(binaryTree.left, target)
+    + pathsWithSum(binaryTree.right, target)
 }
 
 module.exports = {
@@ -219,4 +237,5 @@ module.exports = {
   bstSequences,
   checkSubtree,
   randomNode,
+  pathsWithSum,
 }

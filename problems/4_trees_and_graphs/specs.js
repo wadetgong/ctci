@@ -15,6 +15,7 @@ const {
   bstSequences,
   checkSubtree,
   randomNode,
+  pathsWithSum,
 } = require('./problems')
 
 describe('Chapter 4: Trees and Graphs -', () => {
@@ -504,7 +505,53 @@ describe('Chapter 4: Trees and Graphs -', () => {
       for (let key in tally) {
         expect(tally[key] / 100000).to.be.closeTo(0.14285, 0.03)
       }
+    })
+  })
 
+  // 4.12 pathsWithSum
+  describe('pathsWithSum', () => {
+    let node1, node2, node3, node4, node5, node6, node7, node8, node9, node10, node11, node12, node13, node14, node15
+    beforeEach(() => {
+      node1 = new BinaryTree(8)
+      node2 = new BinaryTree(-2)
+      node3 = new BinaryTree(4)
+      node4 = new BinaryTree(-1)
+      node5 = new BinaryTree(1)
+      node6 = new BinaryTree(3)
+      node7 = new BinaryTree(-4)
+      node8 = new BinaryTree(6)
+      node9 = new BinaryTree(3)
+      node10 = new BinaryTree(2)
+      node11 = new BinaryTree(-2)
+      node12 = new BinaryTree(-4)
+      node13 = new BinaryTree(5)
+      node14 = new BinaryTree(0)
+      node15 = new BinaryTree(2)
+      node1.left = node2
+      node1.right = node3
+      node2.left = node4
+      node2.right = node5
+      node3.left = node6
+      node3.right = node7
+      node4.left = node8
+      node4.right = node9
+      node5.left = node10
+      node5.right = node11
+      node6.left = node12
+      node6.right = node13
+      node7.left = node14
+      node7.right = node15
+    })
+
+    it('returns the number of paths for a given binary tree that sum up to the target', () => {
+      expect(pathsWithSum(node7, -4)).to.be.equal(2)
+      expect(pathsWithSum(node7, -2)).to.be.equal(1)
+      expect(pathsWithSum(node7, 2)).to.be.equal(1)
+    })
+
+    it('does not short circuit a valid path (a valid path can be a sub-set of another valid path)', () => {
+      expect(pathsWithSum(node1, 8)).to.be.equal(5)
+      expect(pathsWithSum(node1, 0)).to.be.equal(4)
     })
   })
 })

@@ -37,8 +37,41 @@ const binaryToString = float => {
 }
 
 // 5.3 flipBitToWin
-const flipBitToWin = binaryNum => {
+const findBestPair = arr => {
+  if (arr.length === 0) return 0
+  if (arr.length === 1) return arr[0]
 
+  let max = arr[0] + arr[1] + 1
+  let pairVal
+  for (let i = 1; i < arr.length - 1; i++) {
+    pairVal = arr[i] + arr[i + 1] + 1
+    if (pairVal > max) max = pairVal
+  }
+
+  return max
+}
+
+const flipBitToWin = binaryNum => {
+  let binVal = parseInt(binaryNum.toString(), 2)
+
+  let currentBit = 1 & binVal
+  let currentCount = 1
+  let oneStreak = []
+
+  let bit
+  for (let i = 1; i < 32; i++) {
+    bit = ((1 << i) & binVal) > 0 ? 1 : 0
+    if (bit !== currentBit) {
+      if (currentBit) {
+        oneStreak.push(currentCount)
+      }
+      currentCount = 1
+      currentBit = bit
+    } else {
+      currentCount++
+    }
+  }
+  return findBestPair(oneStreak)
 }
 
 module.exports = {
